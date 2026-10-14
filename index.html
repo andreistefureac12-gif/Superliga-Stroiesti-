@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Superliga Stroișești</title>
+<style>
+:root{--bg:#080d18;--card:#111b2d;--blue:#1877ff;--text:#f4f7ff;--muted:#9eacc5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+header{padding:30px 18px;background:linear-gradient(135deg,#07152f,#0758d8);text-align:center;border-bottom:3px solid #42a5ff}
+header small{letter-spacing:4px;font-weight:bold}
+h1{font-size:clamp(28px,6vw,48px);margin:12px 0}
+header p{color:#d5e6ff}
+nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#0d1525;position:sticky;top:0}
+nav button{background:#1b2940;color:white;border:0;border-radius:8px;padding:12px 15px;font-weight:bold;white-space:nowrap}
+nav button.active{background:var(--blue)}
+main{max-width:1000px;margin:auto;padding:18px}
+.panel{background:var(--card);padding:18px;border-radius:14px;margin:16px 0;border:1px solid #23334e}
+h2{margin-top:0}
+.tag{color:#66adff;font-size:12px;letter-spacing:2px;font-weight:bold}
+table{width:100%;border-collapse:collapse;min-width:530px}
+th,td{text-align:center;padding:12px 8px;border-bottom:1px solid #26354d}
+th{color:#91bfff;font-size:12px}
+td:nth-child(2),th:nth-child(2){text-align:left}
+.scroll{overflow-x:auto}
+.points{font-weight:bold;color:#75b2ff}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.big{font-size:32px;font-weight:bold}
+.match{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 0;border-bottom:1px solid #26354d}
+.score{background:#071225;border-radius:8px;padding:9px 12px;font-weight:bold}
+.muted{color:var(--muted);font-size:13px}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+<small>SEZONUL 2026 / 2027</small>
+<h1>⚽ SUPERLIGA STROIȘEȘTI</h1>
+<p>Fotbal. Rivalitate. Pasiune.</p>
+</header>
+<nav>
+<button class="active" data-tab="clasament">Clasament</button>
+<button data-tab="golgheteri">Golgheteri</button>
+<button data-tab="meciuri">Meciuri</button>
+<button data-tab="statistici">Statistici</button>
+</nav>
+<main>
+<section id="clasament" class="panel">
+<div class="tag">LIGA LOCALĂ</div>
+<div class="top"><h2>Clasamentul echipelor</h2><span>🏆</span></div>
+<p class="muted">Clasament demonstrativ. Rezultatele pot fi actualizate.</p>
+<div class="scroll">
+<table>
+<thead><tr><th>LOC</th><th>ECHIPĂ</th><th>M</th><th>V</th><th>E</th><th>Î</th><th>G</th><th>PCT</th></tr></thead>
+<tbody id="standings"></tbody>
+</table>
+</div>
+</section>
+<section id="golgheteri" class="panel" hidden>
+<div class="tag">LUPTA PENTRU GHEATA DE AUR</div>
+<h2>🥇 Top golgheteri</h2>
+<div class="scroll">
+<table>
+<thead><tr><th>LOC</th><th>JUCĂTOR</th><th>GOLURI</th></tr></thead>
+<tbody id="scorers"></tbody>
+</table>
+</div>
+</section>
+<section id="meciuri" class="panel" hidden>
+<div class="tag">PROGRAM ȘI REZULTATE</div>
+<h2>📅 Meciuri</h2>
+<div id="fixtures"></div>
+</section>
+<section id="statistici" class="panel" hidden>
+<div class="tag">DATELE SEZONULUI</div>
+<h2>📊 Statistici</h2>
+<div class="top">
+<div><div class="muted">Goluri lider</div><div class="big" id="leaderGoals">28</div></div>
+<div><div class="muted">Jucători în top</div><div class="big">5</div></div>
+</div>
+<p class="muted">Superliga Stroișești · Sezonul 2026/2027</p>
+</section>
+</main>
+<footer>SUPERLIGA STROIȘEȘTI · 2026/2027<br>Fotbalul ne unește 💙</footer>
+<script>
+const teams=[
+{name:"Dinamo București",m:1,v:1,e:0,i:0,g:"3-0",p:3},
+{name:"Cetatea Suceava",m:1,v:1,e:0,i:0,g:"2-0",p:3},
+{name:"Rapid București",m:1,v:0,e:0,i:1,g:"0-2",p:0},
+{name:"FCSB",m:1,v:0,e:0,i:1,g:"0-3",p:0}
+];
+const scorers=[
+{name:"Tudor",goals:28},
+{name:"David",goals:20},
+{name:"Ilie",goals:16},
+{name:"Alex",goals:4},
+{name:"Cosmin",goals:2}
+];
+const fixtures=[
+{date:"24.10.2026",home:"Cetatea Suceava",away:"Rapid București",score:"— : —"},
+{date:"De stabilit",home:"Dinamo București",away:"FCSB",score:"— : —"}
+];
+document.getElementById("standings").innerHTML=teams.map((t,i)=>`<tr><td>${i+1}</td><td>${t.name}</td><td>${t.m}</td><td>${t.v}</td><td>${t.e}</td><td>${t.i}</td><td>${t.g}</td><td class="points">${t.p}</td></tr>`).join("");
+document.getElementById("scorers").innerHTML=scorers.map((s,i)=>`<tr><td>${i+1}</td><td>${s.name}</td><td class="points">${s.goals}</td></tr>`).join("");
+document.getElementById("leaderGoals").textContent=scorers[0].goals;
+document.getElementById("fixtures").innerHTML=fixtures.map(m=>`<div class="match"><div><div>${m.home}</div><div>${m.away}</div><div class="muted">${m.date}</div></div><div class="score">${m.score}</div></div>`).join("");
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{
+document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+document.querySelectorAll("main section").forEach(s=>s.hidden=s.id!==b.dataset.tab);
+}));
+</script>
+</body>
+</html>
